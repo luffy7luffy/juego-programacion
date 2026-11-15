@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mapa</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <h1>Mapa del distrito</h1>
+  <p id="mentor"></p>
+  <p>XP: <span id="xp">0</span> · Racha: <span id="racha">0</span> días</p>
+  <div id="tarjetas" class="tarjetas"></div>
+
+  <script src="datos/retos-html.js"></script>
+  <script src="js/mentor.js"></script>
+  <script src="js/progreso.js"></script>
+  <script>
+    document.getElementById("mentor").textContent = mentor.nombre + ": " + mentor.saludo;
+    document.getElementById("xp").textContent = leerXP();
+    document.getElementById("racha").textContent = leerRacha();
+
+    const contenedor = document.getElementById("tarjetas");
+    retos.forEach(function (reto, posicion) {
+      const tarjeta = document.createElement("a");
+      tarjeta.className = "tarjeta";
+      tarjeta.href = "reto.html?n=" + (posicion + 1);
+
+      const nombre = document.createElement("span");
+      nombre.textContent = "Reto " + reto.id + ": " + reto.titulo;
+      tarjeta.appendChild(nombre);
+
+      if (retoCompletado(reto.id)) {
+        tarjeta.classList.add("hecha");
+        const marca = document.createElement("span");
+        marca.className = "marca";
+        marca.textContent = "✓";
+        tarjeta.appendChild(marca);
+      }
+
+      contenedor.appendChild(tarjeta);
+    });
+  </script>
+</body>
+</html>

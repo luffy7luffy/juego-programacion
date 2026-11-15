@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Reto</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <h1 id="titulo">Reto</h1>
+  <p id="enunciado"></p>
+  <pre id="codigo"></pre>
+  <input id="respuesta" type="text" placeholder="Escribe aquí tu respuesta">
+  <br><br>
+  <button onclick="comprobar()">Comprobar</button>
+  <button onclick="darPista()">Pista</button>
+  <p id="mensaje"></p>
+  <p id="mentor"></p>
+  <p id="pista"></p>
+  <button id="continuar" style="display:none" onclick="location.href='resultado.html?n=' + (retos.indexOf(reto) + 1)">Continuar</button>
+
+  <script src="datos/retos-html.js"></script>
+  <script src="js/mentor.js"></script>
+  <script src="js/progreso.js"></script>
+  <script src="js/sonidos.js"></script>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const numero = Number(params.get("n")) || 1;
+    const reto = retos[numero - 1] || retos[0];
+    const XP_POR_RETO = 10;
+    let pistaActual = 0;
+
+    document.getElementById("titulo").textContent = reto.titulo;
+    document.getElementById("enunciado").textContent = reto.enunciado;
+    document.getElementById("codigo").textContent = reto.codigo;
+
+    function comprobar() {
+      const escrito = document.getElementById("respuesta").value.trim().toLowerCase();
+      const mensaje = document.getElementById("mensaje");
+      const frase = document.getElementById("mentor");
+
+      mensaje.classList.remove("acierto", "error");
+      void mensaje.offsetWidth;
+
+      if (escrito === reto.respuesta) {
+        registrarPractica();
+        if (retoCompletado(reto.id)) {
+          mensaje.textContent = "¡Correcto! Ya habías ganado el XP de este reto.";
+        } else {
+          completarReto(reto.id, XP_POR_RETO);
+          mensaje.textContent = "¡Correcto! Has ganado " + XP_POR_RETO + " XP.";
+        }
+        mensaje.style.color = "#4ecca3";
+        mensaje.classList.add("acierto");
+        frase.textContent = mentor.nombre + ": " + mentor.acierto;
+        document.getElementById("continuar").style.display = "block";
+        sonidoAcierto();
+      } else {
+        mensaje.textContent = "Todavía no. Prueba otra vez.";
+        mensaje.style.color = "#ff6b6b";
+        mensaje.classList.add("error");
+        frase.textContent = mentor.nombre + ": " + mentor.fallo;
+        sonidoFallo();
+      }
+    }
+
+    function darPista() {
+      if (pistaActual < reto.pistas.length) {
+        document.getElementById("pista").textContent =
+          "Pista " + (pistaActual + 1) + ": " + reto.pistas[pistaActual];
+        pistaActual = pistaActual + 1;
+      }
+    }
+  </script>
+</body>
+</html>
