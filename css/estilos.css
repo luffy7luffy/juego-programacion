@@ -69,3 +69,27 @@ button {
 .error {
   animation: temblor 0.3s;
 }
+
+.tarjeta-info {
+  background-color: #16213e;
+  border: 2px solid #0f3460;
+  border-radius: 12px;
+  padding: 14px 18px;
+  text-align: left;
+}
+
+.tarjeta-info p {
+  margin: 6px 0 0;
+}
+
+.recomendacion {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 0 16px;
+}
+
+.recomendacion a {
+  display: block;
+  margin: 6px 0;
+  color: #4ecca3;
+}

@@ -120,3 +120,8 @@ const retos = [
     ]
   }
 ];
+
+const RETOS_CSS = [6, 7, 8, 10];
+retos.forEach(function (reto) {
+  reto.tema = RETOS_CSS.includes(reto.id) ? "CSS" : "HTML";
+});

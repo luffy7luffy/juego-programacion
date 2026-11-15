@@ -54,3 +54,20 @@ function registrarPractica() {
   localStorage.setItem("racha", racha);
   localStorage.setItem("ultimaPractica", hoy);
 }
+
+function leerIntentos() {
+  return JSON.parse(localStorage.getItem("intentos") || "{}");
+}
+
+function registrarIntento(tema, acierto) {
+  const intentos = leerIntentos();
+  if (!intentos[tema]) {
+    intentos[tema] = { aciertos: 0, fallos: 0 };
+  }
+  if (acierto) {
+    intentos[tema].aciertos = intentos[tema].aciertos + 1;
+  } else {
+    intentos[tema].fallos = intentos[tema].fallos + 1;
+  }
+  localStorage.setItem("intentos", JSON.stringify(intentos));
+}

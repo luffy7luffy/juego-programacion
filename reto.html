@@ -47,6 +47,7 @@
           mensaje.textContent = "¡Correcto! Ya habías ganado el XP de este reto.";
         } else {
           completarReto(reto.id, XP_POR_RETO);
+          registrarIntento(reto.tema, true);
           mensaje.textContent = "¡Correcto! Has ganado " + XP_POR_RETO + " XP.";
         }
         mensaje.style.color = "#4ecca3";
@@ -60,6 +61,7 @@
         mensaje.classList.add("error");
         frase.textContent = mentor.nombre + ": " + mentor.fallo;
         sonidoFallo();
+        registrarIntento(reto.tema, false);
       }
     }
 

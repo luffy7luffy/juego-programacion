@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mis puntos débiles</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <h1>Mis puntos débiles</h1>
+  <div id="temas" class="tarjetas"></div>
+  <div id="recomendacion" class="recomendacion"></div>
+  <button onclick="location.href='mapa.html'">Volver al mapa</button>
+
+  <script src="datos/retos-html.js"></script>
+  <script src="js/mentor.js"></script>
+  <script src="js/progreso.js"></script>
+  <script>
+    const temas = ["HTML", "CSS"];
+    const intentos = leerIntentos();
+    const contenedor = document.getElementById("temas");
+    let peorTema = null;
+    let peorValor = 0;
+
+    temas.forEach(function (tema) {
+      const datos = intentos[tema] || { aciertos: 0, fallos: 0 };
+      const cantidad = retos.filter(function (reto) { return reto.tema === tema; }).length;
+      const fallosPorReto = datos.fallos / cantidad;
+
+      if (fallosPorReto > peorValor) {
+        peorValor = fallosPorReto;
+        peorTema = tema;
+      }
+
+      const tarjeta = document.createElement("div");
+      tarjeta.className = "tarjeta-info";
+      const titulo = document.createElement("strong");
+      titulo.textContent = tema + " (" + cantidad + " retos)";
+      const detalle = document.createElement("p");
+      detalle.textContent = "Aciertos: " + datos.aciertos + " · Fallos: " + datos.fallos;
+      tarjeta.appendChild(titulo);
+      tarjeta.appendChild(detalle);
+      contenedor.appendChild(tarjeta);
+    });
+
+    const caja = document.getElementById("recomendacion");
+    const frase = document.createElement("p");
+
+    if (peorTema === null) {
+      frase.textContent = mentor.nombre + ": Todavía no hay fallos apuntados. Cuando te equivoques, aquí verás en qué temas practicar más.";
+      caja.appendChild(frase);
+    } else {
+      frase.textContent = mentor.nombre + ": Ahora mismo tu punto más débil es " + peorTema + ". Te recomiendo repasar estos retos:";
+      caja.appendChild(frase);
+      retos.forEach(function (reto, posicion) {
+        if (reto.tema === peorTema) {
+          const enlace = document.createElement("a");
+          enlace.href = "reto.html?n=" + (posicion + 1);
+          enlace.textContent = "Reto " + reto.id + ": " + reto.titulo;
+          caja.appendChild(enlace);
+        }
+      });
+    }
+  </script>
+</body>
+</html>
