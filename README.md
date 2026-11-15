@@ -1,1 +1,1 @@
-# juego-programacion
+Juego para aprender HTML y CSS
